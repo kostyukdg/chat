@@ -1,13 +1,14 @@
+import { useState } from "react";
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.div<{ isFocused: boolean }>`
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   background: #1B1B1B;
-  padding: 6px 0 calc(env(safe-area-inset-bottom) + 6px);
+  padding: ${(isFocused) => isFocused ? '6px 0' : '6px 0 calc(env(safe-area-inset-bottom) + 6px)'};
 `;
 
 const Upload = styled.div`
@@ -71,7 +72,8 @@ const SendButton = styled.div`
 
 
 export default function Input(): JSX.Element {
-    return <Container>
+    const [isFocused, setFocused] = useState(false);
+    return <Container isFocused={isFocused}>
         <Upload>
             <label htmlFor="file-upload" className="pn-msg-input__fileLabel" title="Add a file">
                 <svg xmlns="http://www.w3.org/2000/svg" overflow="visible" preserveAspectRatio="none"
@@ -88,6 +90,8 @@ export default function Input(): JSX.Element {
             <TextareaAutosize
                 minRows={1}
                 maxRows={7}
+                onBlur={() => setFocused(false)}
+                onFocus={() => setFocused(true)}
                 placeholder={'Сообщение'}
             />
         </Textarea>
