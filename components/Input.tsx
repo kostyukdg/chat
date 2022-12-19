@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Container = styled.div`
   position: fixed;
   bottom: 0;
+  bottom: env(safe-area-inset-bottom);
   left: 0;
   width: 100%;
   background: #1B1B1B;
@@ -70,7 +71,7 @@ const SendButton = styled.div`
 `;
 
 
-export default function Input() {
+export default function Input(): JSX.Element {
     return <Container>
         <Upload>
             <label htmlFor="file-upload" className="pn-msg-input__fileLabel" title="Add a file">
