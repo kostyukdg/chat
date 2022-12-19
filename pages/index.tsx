@@ -3,13 +3,11 @@ import styled from "styled-components";
 import Input from "../components/Input";
 
 const Container = styled.div`
-  height: 100%;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   background: #010101;
   display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
+  position: relative;
 `;
 
 const Title = styled.div`
@@ -34,7 +32,7 @@ export default function Home() {
         <meta name="apple-mobile-web-app-title" content="Love" />
         <meta name="application-name" content="Love" />
         <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#010101" />
       </Head>
       <Title>sdfdf</Title>
         <Input/>
