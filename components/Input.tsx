@@ -8,7 +8,7 @@ const Container = styled.div<{ isFocused: boolean }>`
   left: 0;
   width: 100%;
   background: #1B1B1B;
-  padding: ${(isFocused) => isFocused ? '6px 0' : '6px 0 calc(env(safe-area-inset-bottom) + 6px)'};
+  padding: ${({ isFocused }) => isFocused ? '6px 0' : '6px 0 calc(env(safe-area-inset-bottom) + 6px)'};
 `;
 
 const Upload = styled.div`
