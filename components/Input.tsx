@@ -4,11 +4,10 @@ import styled from "styled-components";
 const Container = styled.div`
   position: fixed;
   bottom: 0;
-  bottom: env(safe-area-inset-bottom);
   left: 0;
   width: 100%;
   background: #1B1B1B;
-  padding: 6px 0;
+  padding: 6px 0 calc(env(safe-area-inset-bottom) + 6px);
 `;
 
 const Upload = styled.div`
