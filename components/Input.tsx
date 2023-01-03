@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from "styled-components";
 
-const Container = styled.div<{ isFocused: boolean }>`
+const Container = styled.form<{ isFocused: boolean }>`
   position: fixed;
   bottom: 0;
   left: 0;
@@ -15,6 +15,7 @@ const Upload = styled.div`
   display: inline-block;
   vertical-align: bottom;
   label {
+    position: relative;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -28,6 +29,17 @@ const Upload = styled.div`
   input {
     display: none;
   }
+`;
+
+const DotBadge = styled.div`
+  position: absolute;
+  right: 11px;
+  top: 7px;
+  height: 8px;
+  width: 8px;
+  display: inline-block;
+  border-radius: 50%;
+  background: rgb(92, 201, 102);
 `;
 
 const Textarea = styled.div`
@@ -73,9 +85,23 @@ const SendButton = styled.div`
 
 export default function Input(): JSX.Element {
     const [isFocused, setFocused] = useState(false);
-    return <Container isFocused={isFocused}>
+    const [isFileAttached, setFileAttached] = useState(false);
+    return <Container
+        isFocused={isFocused}
+        onSubmit={(event: SyntheticEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const formElements = form.elements as typeof form.elements & {
+                message: HTMLInputElement,
+                attachment: HTMLInputElement,
+            }
+            form.reset();
+            setFileAttached(false);
+            console.log(formElements.message.value, formElements.attachment.value, formElements.attachment.files);
+        }}
+    >
         <Upload>
-            <label htmlFor="file-upload" className="pn-msg-input__fileLabel" title="Add a file">
+            <label htmlFor="file-upload" title="Add a file">
                 <svg xmlns="http://www.w3.org/2000/svg" overflow="visible" preserveAspectRatio="none"
                      viewBox="0 0 24 24" width="20" height="20">
                     <path
@@ -83,8 +109,17 @@ export default function Input(): JSX.Element {
                         fill="#828282" vectorEffect="non-scaling-stroke"
                     />
                 </svg>
+                {isFileAttached &&  <DotBadge/>}
             </label>
-            <input type="file" id="file-upload"/>
+            <input
+                type="file"
+                id="file-upload"
+                name="attachment"
+                onChange={(event) => {
+                    const hasAttachment = !!(event.target.files && event.target.files.length > 0);
+                    setFileAttached(hasAttachment);
+                }}
+            />
         </Upload>
         <Textarea>
             <TextareaAutosize
@@ -93,10 +128,11 @@ export default function Input(): JSX.Element {
                 onBlur={() => setFocused(false)}
                 onFocus={() => setFocused(true)}
                 placeholder={'Сообщение'}
+                name="message"
             />
         </Textarea>
         <SendButton>
-            <button className="pn-msg-input__send false" title="Send">
+            <button title="Send" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" overflow="visible" preserveAspectRatio="none"
                      viewBox="0 0 24 24" width="20" height="20">
                     <path fill="#828282" vectorEffect="non-scaling-stroke" d="m2 21 21-9L2 3v7l15 2-15 2z"/>
