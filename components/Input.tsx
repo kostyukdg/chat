@@ -141,7 +141,7 @@ export default function Input(): JSX.Element {
           maxRows={7}
           onBlur={() => setFocused(false)}
           onFocus={() => setFocused(true)}
-          placeholder={"Сообщение"}
+          placeholder={"Type a message"}
           name="message"
         />
       </Textarea>
