@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import { Open_Sans } from "@next/font/google";
 import { useEffect } from "react";
+import "sanitize.css/sanitize.css";
 
 const openSans = Open_Sans({ subsets: ["latin", "cyrillic"] });
 
