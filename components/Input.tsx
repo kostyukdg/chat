@@ -1,5 +1,5 @@
 import { SyntheticEvent, useState } from "react";
-import TextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from "react-textarea-autosize";
 import styled from "styled-components";
 
 const Container = styled.form<{ isFocused: boolean }>`
@@ -7,8 +7,9 @@ const Container = styled.form<{ isFocused: boolean }>`
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #1B1B1B;
-  padding: ${({ isFocused }) => isFocused ? '6px 0' : '6px 0 calc(env(safe-area-inset-bottom) + 6px)'};
+  background: #1b1b1b;
+  padding: ${({ isFocused }) =>
+    isFocused ? "6px 0" : "6px 0 calc(env(safe-area-inset-bottom) + 6px)"};
 `;
 
 const Upload = styled.div`
@@ -82,62 +83,86 @@ const SendButton = styled.div`
   }
 `;
 
-
 export default function Input(): JSX.Element {
-    const [isFocused, setFocused] = useState(false);
-    const [isFileAttached, setFileAttached] = useState(false);
-    return <Container
-        isFocused={isFocused}
-        onSubmit={(event: SyntheticEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            const form = event.currentTarget;
-            const formElements = form.elements as typeof form.elements & {
-                message: HTMLInputElement,
-                attachment: HTMLInputElement,
-            }
-            form.reset();
-            setFileAttached(false);
-            console.log(formElements.message.value, formElements.attachment.value, formElements.attachment.files);
-        }}
+  const [isFocused, setFocused] = useState(false);
+  const [isFileAttached, setFileAttached] = useState(false);
+  return (
+    <Container
+      isFocused={isFocused}
+      onSubmit={(event: SyntheticEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const formElements = form.elements as typeof form.elements & {
+          message: HTMLInputElement;
+          attachment: HTMLInputElement;
+        };
+        form.reset();
+        setFileAttached(false);
+        console.log(
+          formElements.message.value,
+          formElements.attachment.value,
+          formElements.attachment.files
+        );
+      }}
     >
-        <Upload>
-            <label htmlFor="file-upload" title="Add a file">
-                <svg xmlns="http://www.w3.org/2000/svg" overflow="visible" preserveAspectRatio="none"
-                     viewBox="0 0 24 24" width="20" height="20">
-                    <path
-                        d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
-                        fill="#828282" vectorEffect="non-scaling-stroke"
-                    />
-                </svg>
-                {isFileAttached &&  <DotBadge/>}
-            </label>
-            <input
-                type="file"
-                id="file-upload"
-                name="attachment"
-                onChange={(event) => {
-                    const hasAttachment = !!(event.target.files && event.target.files.length > 0);
-                    setFileAttached(hasAttachment);
-                }}
+      <Upload>
+        <label htmlFor="file-upload" title="Add a file">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            overflow="visible"
+            preserveAspectRatio="none"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            <path
+              d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
+              fill="#828282"
+              vectorEffect="non-scaling-stroke"
             />
-        </Upload>
-        <Textarea>
-            <TextareaAutosize
-                minRows={1}
-                maxRows={7}
-                onBlur={() => setFocused(false)}
-                onFocus={() => setFocused(true)}
-                placeholder={'Сообщение'}
-                name="message"
+          </svg>
+          {isFileAttached && <DotBadge />}
+        </label>
+        <input
+          type="file"
+          id="file-upload"
+          name="attachment"
+          onChange={(event) => {
+            const hasAttachment = !!(
+              event.target.files && event.target.files.length > 0
+            );
+            setFileAttached(hasAttachment);
+          }}
+        />
+      </Upload>
+      <Textarea>
+        <TextareaAutosize
+          minRows={1}
+          maxRows={7}
+          onBlur={() => setFocused(false)}
+          onFocus={() => setFocused(true)}
+          placeholder={"Сообщение"}
+          name="message"
+        />
+      </Textarea>
+      <SendButton>
+        <button title="Send" type="submit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            overflow="visible"
+            preserveAspectRatio="none"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            <path
+              fill="#828282"
+              vectorEffect="non-scaling-stroke"
+              d="m2 21 21-9L2 3v7l15 2-15 2z"
             />
-        </Textarea>
-        <SendButton>
-            <button title="Send" type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" overflow="visible" preserveAspectRatio="none"
-                     viewBox="0 0 24 24" width="20" height="20">
-                    <path fill="#828282" vectorEffect="non-scaling-stroke" d="m2 21 21-9L2 3v7l15 2-15 2z"/>
-                </svg>
-            </button>
-        </SendButton>
+          </svg>
+        </button>
+      </SendButton>
     </Container>
+  );
 }

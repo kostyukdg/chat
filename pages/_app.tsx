@@ -1,17 +1,18 @@
-import type { AppProps } from 'next/app'
-import { Open_Sans } from '@next/font/google'
+import type { AppProps } from "next/app";
+import { Open_Sans } from "@next/font/google";
 import { useEffect } from "react";
 
-const openSans = Open_Sans({ subsets: ['latin', 'cyrillic'] })
+const openSans = Open_Sans({ subsets: ["latin", "cyrillic"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js');
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js");
     });
   }, []);
-  return <>
-    <style jsx global>{`
+  return (
+    <>
+      <style jsx global>{`
         html {
           font-family: ${openSans.style.fontFamily};
         }
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
           padding: 0;
         }
       `}</style>
-    <Component {...pageProps} />
-  </>
+      <Component {...pageProps} />
+    </>
+  );
 }
