@@ -83,7 +83,11 @@ const SendButton = styled.div`
   }
 `;
 
-export default function Input(): JSX.Element {
+export default function Input({
+  sendMessage,
+}: {
+  sendMessage: (message: string, attachment?: File) => void;
+}): JSX.Element {
   const [isFocused, setFocused] = useState(false);
   const [isFileAttached, setFileAttached] = useState(false);
   return (
@@ -96,13 +100,13 @@ export default function Input(): JSX.Element {
           message: HTMLInputElement;
           attachment: HTMLInputElement;
         };
+        const message = formElements.message.value;
+        let attachment;
+        if (formElements.attachment.files)
+          attachment = formElements.attachment.files[0];
+        sendMessage(message, attachment);
         form.reset();
         setFileAttached(false);
-        console.log(
-          formElements.message.value,
-          formElements.attachment.value,
-          formElements.attachment.files
-        );
       }}
     >
       <Upload>

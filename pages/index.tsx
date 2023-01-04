@@ -58,7 +58,17 @@ export default function Home() {
         <meta name="theme-color" content="#010101" />
       </Head>
       <Title>sdfdf</Title>
-      <Input />
+      <Input
+        sendMessage={(message, attachment) => {
+          const formData = new FormData();
+          formData.append("message", message);
+          if (attachment) formData.append("attachment", attachment);
+          fetch("/api/message", {
+            method: "POST",
+            body: formData,
+          });
+        }}
+      />
     </Container>
   );
 }
