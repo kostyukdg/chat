@@ -4,13 +4,18 @@ import { Open_Sans } from "@next/font/google";
 import { useEffect } from "react";
 import "sanitize.css/sanitize.css";
 
+function registerServiceWorker() {
+  navigator.serviceWorker.register("/service-worker.js");
+}
+
 const openSans = Open_Sans({ subsets: ["latin", "cyrillic"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js");
-    });
+    window.addEventListener("load", registerServiceWorker);
+    return () => {
+      window.removeEventListener("load", registerServiceWorker);
+    };
   }, []);
   return (
     <>
@@ -51,8 +56,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#010101" />
       </Head>
       <style jsx global>{`
-        html {
+        * {
           font-family: ${openSans.style.fontFamily};
+        }
+        html {
+          background: #010101;
+          color: #fff;
         }
         body {
           margin: 0;
