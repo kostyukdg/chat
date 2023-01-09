@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { renameSync } from "fs";
 import { extname } from "path";
-import { parseMultipartFormData } from "../../utils/parse-multipart-form-data";
+import { parseMultipartFormData } from "../../utils/parseMultipartFormData";
 
 interface Data {
   status: "Success" | "Error";
