@@ -119,6 +119,8 @@ export default function Home() {
             });
             await router.push("/chat");
             setError("");
+          } else if (status === "InvalidCredentials") {
+            setError("Invalid credentials");
           } else {
             setError("Server error");
           }

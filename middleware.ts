@@ -1,9 +1,8 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { USER_TOKEN_COOKIE_KEY } from "./constants/userTokenCookieKey";
-import { jwtVerify } from "jose";
-
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "";
+import { decodeJsonWebToken } from "./utils/jwt/decodeJsonWebToken";
+import { UserJsonWebToken } from "./types/UserJsonWebToken";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -25,7 +24,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/chat", request.url));
       }
       try {
-        await jwtVerify(token, new TextEncoder().encode(JWT_SECRET_KEY));
+        await decodeJsonWebToken<UserJsonWebToken>(token);
       } catch (e) {
         request.cookies.delete(USER_TOKEN_COOKIE_KEY);
         const response = NextResponse.redirect(new URL("/", request.url));
